@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Management Visualization</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.19.0/babel.min.js"></script>
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #e0e5ec;
+        min-height: 100vh;
+      }
+
+      #root {
+        width: 100%;
+        max-width: 800px;
+      }
+
+      .container {
+        text-align: center;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      .diagram {
+        margin: 20px 0;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .circle,
+      .square {
+        width: 120px;
+        height: 120px;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #e0e5ec;
+        color: #555;
+        font-weight: 600;
+        box-shadow: 8px 8px 15px #b8b9be, -8px -8px 15px #ffffff;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .circle.selected,
+      .square.selected {
+        background-color: #555;
+        color: #e0e5ec;
+        box-shadow: inset 8px 8px 15px #b8b9be, inset -8px -8px 15px #ffffff;
+      }
+
+      .description {
+        margin-top: 30px;
+        padding: 20px;
+        background: #e0e5ec;
+        box-shadow: inset 6px 6px 12px #b8b9be, inset -6px -6px 12px #ffffff;
+        border-radius: 12px;
+        color: #555;
+        text-align: left;
+        min-height: 120px;
+      }
+
+      .description h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .description p {
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      .new-section {
+        margin-top: 40px;
+      }
+
+      .square-buttons {
+        display: flex;
+        justify-content: space-around;
+        gap: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const { useState } = React;
+
+      function App() {
+        const dataManagementPhases = [
+          {
+            id: "collect",
+            label: "Collection",
+            description:
+              "Data is gathered from various sources like sensors, logs, or user input.",
+          },
+          {
+            id: "store",
+            label: "Storage",
+            description:
+              "Data is stored securely in databases, data lakes, or cloud storage.",
+          },
+          {
+            id: "process",
+            label: "Processing",
+            description:
+              "Data is transformed, cleaned, and analyzed for meaningful insights.",
+          },
+          {
+            id: "visualize",
+            label: "Visualization",
+            description:
+              "Data is represented through charts, dashboards, or reports for decision-making.",
+          },
+        ];
+
+        const taskPhases = [
+          {
+            id: "task",
+            label: "Task",
+            description: "Identify the problem to be solved.",
+          },
+          {
+            id: "analysis",
+            label: "Analysis",
+            description:
+              "Perform an in-depth analysis of the task, including outputs, inputs, and data relationships.",
+          },
+          {
+            id: "design",
+            label: "Design",
+            description:
+              "Define the solution by creating an algorithm and clear process.",
+          },
+          {
+            id: "implementation",
+            label: "Implement",
+            description:
+              "Translate the design into a program with clear structure and comments.",
+          },
+          {
+            id: "test",
+            label: "Test",
+            description:
+              "Create testing procedures to validate the solution and analyze results.",
+          },
+        ];
+
+        const [selectedData, setSelectedData] = useState(
+          dataManagementPhases[0]
+        );
+        const [selectedTask, setSelectedTask] = useState(taskPhases[0]);
+
+        return (
+          <div className="container">
+            <h1>Data Management Overview</h1>
+            <div className="diagram">
+              {dataManagementPhases.map((phase) => (
+                <div
+                  key={phase.id}
+                  className={`circle ${
+                    selectedData.id === phase.id ? "selected" : ""
+                  }`}
+                  onClick={() => setSelectedData(phase)}
+                >
+                  {phase.label}
+                </div>
+              ))}
+            </div>
+            <div className="description">
+              <h2>{selectedData.label}</h2>
+              <p>{selectedData.description}</p>
+            </div>
+            <div className="new-section">
+              <h1>Programming Fundamentals</h1>
+              <div className="square-buttons">
+                {taskPhases.map((phase) => (
+                  <div
+                    key={phase.id}
+                    className={`square ${
+                      selectedTask.id === phase.id ? "selected" : ""
+                    }`}
+                    onClick={() => setSelectedTask(phase)}
+                  >
+                    {phase.label}
+                  </div>
+                ))}
+              </div>
+              <div className="description">
+                <h2>{selectedTask.label}</h2>
+                <p>{selectedTask.description}</p>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
